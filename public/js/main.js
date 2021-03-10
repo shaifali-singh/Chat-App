@@ -8,11 +8,14 @@ const userList = document.getElementById('users');
 const { username, room } = Qs.parse(location.search, {
   ignoreQueryPrefix: true,
 });
+var avatar=Math.round(Math.random()*10)%9;
+if(avatar == 0|| avatar == 1)
+ avatar=2;
 
 const socket = io();
 
 // Join chatroom
-socket.emit('joinRoom', { username, room });
+socket.emit('joinRoom', { username, room, avatar });
 
 // Get room and users
 socket.on('roomUsers', ({ room, users }) => {
@@ -87,13 +90,12 @@ function outputMessage(message) {
 //       <br>How can I help you today?</div>
 //   <div class="chat-hour">08:55</div>
 // </li>
-  console.log(username);
   const li = document.createElement('li');
  
   const div = document.createElement('div');
   div.classList.add('chat-avatar');
   const img = document.createElement('img');
-  img.src = "https://www.bootdey.com/img/Content/avatar/avatar3.png";
+  img.src = "https://www.bootdey.com/img/Content/avatar/avatar"+message.avatar+".png";
   div.appendChild(img);
 
   const div1 = document.createElement('div');
@@ -167,7 +169,7 @@ function outputUsers(users) {
     div.classList.add('user');
 
     const img=document.createElement('img');
-    img.src="https://www.bootdey.com/img/Content/avatar/avatar3.png";
+    img.src="https://www.bootdey.com/img/Content/avatar/avatar"+user.avatar+".png";
     const p=document.createElement('p');
     p.classList.add('name-time');
     const span=document.createElement('span');
